@@ -1,0 +1,243 @@
+public void pohon(GL gl, double x, double y, double z, double a, double b, double c){
+        
+        double p = 10, l = 10, t = 20;
+        
+        gl.glTranslated(x, y, z);
+        
+        gl.glRotated(a, 1, 0, 0);
+        gl.glRotated(b, 0, 1, 0);
+        gl.glRotated(c, 0, 0, 1);
+        
+        // batang
+        gl.glPushMatrix();
+        gl.glTranslatef(0f, 0.0f, 0.0f);
+        gl.glRotated(90, 1, 0, 0);
+        double tam = l+l;
+        double pung = tam/4;
+        int SLICES=30;
+        int STACKS=30;
+
+        gl.glColor3d(0.5, 0, 0);
+        GLU glu=new GLU();
+        GLUquadric q=glu.gluNewQuadric();
+    //        text3.enable();
+    //        text3.bind();
+        glu.gluQuadricTexture(q, true);
+        glu.gluCylinder(q, pung/2, pung, t, SLICES, STACKS);
+        glu.gluDisk(q, 0.0f, pung/2, SLICES, STACKS);
+        gl.glTranslated(0.0, 0.0, t);
+        glu.gluDisk(q, 0.0f, pung, SLICES, STACKS);
+    //        text3.disable();
+        gl.glPopMatrix();
+
+        // Daun
+        gl.glPushMatrix();
+        gl.glRotated(90,1,0,0);
+        gl.glTranslated(0f, 0f, -t);
+        gl.glColor3d(0, 0.6, 0);
+    //        text4.enable();
+    //        text4.bind();
+        glu.gluCylinder(q, 0.05, l, t, 30, 30);
+        glu.gluDisk(q, 0.0f, 0.05, 30,30);
+        gl.glTranslated(0.0f, 0.0f, t);
+        //glu.gluDisk(q, 0.0f, l, 30,30);
+    //        text4.disable();
+        gl.glPopMatrix();
+
+    }
+    
+    private void papan(GL gl, double p, double l, double t) 
+    {
+//        text1.enable();
+//        text1.bind();
+        gl.glBegin(GL.GL_QUADS);
+    // bawah
+        //gl.glColor3d(0,0.8,0.3);
+        gl.glVertex3d(-p/2,0,0.5);
+        gl.glVertex3d(-p/2,0,-0.5);
+        gl.glVertex3d(p/2,0,-0.5);
+        gl.glVertex3d(p/2,0,0.5);
+    // Atas   
+//        gl.glColor3d(0,0,1);
+        gl.glVertex3d(-p/2,0.5,0.5);
+        gl.glVertex3d(-p/2,0.5,-0.5);
+        gl.glVertex3d(p/2,0.5,-0.5);
+        gl.glVertex3d(p/2,0.5,0.5);
+    // Blakang
+        //gl.glColor3d(0,1,1);
+        gl.glVertex3d(-p/2,0,-0.5);
+        gl.glVertex3d(-p/2,0.5,-0.5);
+        gl.glVertex3d(p/2,0.5,-0.5);
+        gl.glVertex3d(p/2,0,-0.5);
+    // samping kanan
+        //gl.glColor3d(1,1,0);
+        gl.glVertex3d(p/2,0,-0.5);
+        gl.glVertex3d(p/2,0.5,-0.5);
+        gl.glVertex3d(p/2,0.5,0.5);
+        gl.glVertex3d(p/2,0,0.5);
+    // samping kiri
+        //gl.glColor3d(1,0,1);
+        gl.glVertex3d(-p/2,0,-0.5);
+        gl.glVertex3d(-p/2,0.5,-0.5);
+        gl.glVertex3d(-p/2,0.5,0.5);
+        gl.glVertex3d(-p/2,0,0.5);
+    // depan
+       // gl.glColor3d(0.2,0.5,0.7);
+        gl.glVertex3d(-p/2,0,0.5);
+        gl.glVertex3d(-p/2,0.5,0.5);
+        gl.glVertex3d(p/2,0.5,0.5);
+        gl.glVertex3d(p/2,0,0.5);
+        gl.glEnd();
+//        text1.disable();
+    }
+    
+    private void cab(GL gl) 
+    {
+    // Tiang        
+        double l = 1, t = 5;       
+        
+        int SLICES=30;
+        int STACKS=30;
+        gl.glColor3d(0.5, 1, 0);
+        GLU glu=new GLU();
+        GLUquadric q=glu.gluNewQuadric();
+        glu.gluCylinder(q, l, l, t, SLICES, STACKS);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glTranslated(0.0, 0.0, t);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glPopMatrix();
+    }
+    
+    public void ayunAyunan(GL gl, double x, double y, double z, double a, double b, double c) 
+    {
+        double l = 2, t = 50;
+        
+        gl.glTranslated(x, y, z);
+        
+        gl.glRotated(a, 1, 0, 0);
+        gl.glRotated(b, 0, 1, 0);
+        gl.glRotated(c, 0, 0, 1);
+        
+        // Bagian Tiang----------
+        // Tiang kiri
+        gl.glPushMatrix();         
+        gl.glTranslatef(40f, 0.0f, 0.0f);
+        gl.glRotated(90, 1, 0, 0);        
+        
+        int SLICES=30;
+        int STACKS=30;
+        gl.glColor3d(0.5, 1, 0);
+        GLU glu=new GLU();
+        GLUquadric q=glu.gluNewQuadric();
+        glu.gluCylinder(q, l, l, t, SLICES, STACKS);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glTranslated(0.0, 0.0, t);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glPopMatrix();
+        
+        // Tiang kanan
+        gl.glPushMatrix();         
+        gl.glTranslatef(-40f, 0.0f, 0.0f);
+        gl.glRotated(90, 1, 0, 0);        
+        
+        gl.glColor3d(0.5, 1, 0);
+        glu.gluCylinder(q, l, l, t, SLICES, STACKS);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glTranslated(0.0, 0.0, t);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glPopMatrix();
+        
+        // Tiang atas
+        gl.glPushMatrix();         
+        gl.glTranslatef(-40f, 0.0f, 0.0f);
+        gl.glRotated(90, 0, 1, 0);        
+        
+        gl.glColor3d(0.5, 1, 0);
+        glu.gluCylinder(q, l, l, t + 30, SLICES, STACKS);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glTranslated(0.0, 0.0, t + 30);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glPopMatrix();
+        
+        // Bagian Ayunan----------------
+        
+        // Animasi untuk ayunan
+        Animation1();
+        // End animasi untuk ayunan 
+        
+        gl.glPushMatrix();        
+        gl.glTranslated(-10, 0, 0);
+        gl.glRotated(CurrentAngle, 1, 0, 0);        
+        ayunan(gl, l, t);
+        gl.glPopMatrix();
+        
+        gl.glPushMatrix();        
+        gl.glTranslated(30, 0, 0);
+        gl.glRotated(-CurrentAngle, 1, 0, 0);        
+        ayunan(gl, l, t);
+        gl.glPopMatrix();
+    }
+    
+    private void ayunan(GL gl,double l, double t)
+    {
+        
+        GLU glu=new GLU();
+        GLUquadric q=glu.gluNewQuadric();
+        int SLICES=30;
+        int STACKS=30;
+        // tali kiri
+        gl.glPushMatrix();   
+        l -= 1; t -= 5;
+        gl.glTranslatef(0f, -2.0f, 0.0f);
+        gl.glRotated(90, 1, 0, 0);        
+        
+        gl.glColor3d(0.5, 0.5, 0);
+        glu.gluCylinder(q, l, l, t, SLICES, STACKS);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glTranslated(0.0, 0.0, t);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glPopMatrix();
+        
+        // tali kiri
+        gl.glPushMatrix();  
+        gl.glTranslatef(-20f, -2.0f, 0.0f);
+        gl.glRotated(90, 1, 0, 0);        
+        
+        gl.glColor3d(0.5, 0.5, 0);
+        glu.gluCylinder(q, l, l, t, SLICES, STACKS);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glTranslated(0.0, 0.0, t);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glPopMatrix();
+        
+        gl.glPushMatrix();
+        gl.glColor3d(0, 0.5, 0.5);
+        gl.glTranslated(-10, -48, 0);
+        papan(gl, 22, 0, 0);
+        gl.glPopMatrix();
+    }            
+    
+    private void Animation1()
+    {
+        if (AnimateStep < 1.0e3) {         // Avoid overflow problems
+            AnimateStep *= sqrt(2.0);      // Increase the angle increment
+        }
+        if (AnimateStep>1.0e-6) {      // Avoid underflow problems.
+            AnimateStep /= sqrt(2.0);   // Decrease the angle increment
+        }
+        
+        if (CurrentAngle < 20 && CurrentAngle == -20) {
+            add = true;            
+        }
+        
+        if (CurrentAngle > 20 && CurrentAngle != 020) {
+            add = false;
+        }
+        
+        if (add) {
+            CurrentAngle+=AnimateStep;
+        }else {
+            CurrentAngle-=AnimateStep;
+        }
+    }
+}
