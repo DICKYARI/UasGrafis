@@ -1,3 +1,146 @@
+public class ModelObject 
+{            
+    double AnimateStep = 2, CurrentAngle = -20;
+    boolean add;
+    
+    // Objek tanah
+    public void tanah(GL gl, double p, double l)
+    {
+        gl.glPushMatrix(); 
+        gl.glTranslated(0, 0, 30);
+//        text.enable();
+//        text.bind(); 
+        gl.glColor3d(0, l, 0);
+        gl.glBegin(GL.GL_POLYGON);
+        gl.glNormal3f(0.0f,0.0f,-1.0f);
+        gl.glTexCoord2d(0, 1);
+        gl.glVertex3d(-p, 0, l);
+        gl.glTexCoord2d(1, 1);
+        gl.glVertex3d(p, 0, l);
+        gl.glTexCoord2d(1, 0);
+        gl.glVertex3d(p, 0, -l);
+        gl.glTexCoord2d(0, 0);
+        gl.glVertex3d(-p, 0, -l);
+        gl.glEnd();        
+//        text.disable();
+        gl.glPopMatrix();
+
+    }
+
+    public void kursi(GL gl, double x, double y, double z, double a, double b, double c)
+    {
+        // Tiang        
+        double p = 5, l = 5, t = 5;
+               
+        
+        gl.glTranslated(x, y, z);        
+        
+        gl.glRotated(a, 1, 0, 0);
+        gl.glRotated(b, 0, 1, 0);
+        gl.glRotated(c, 0, 0, 1);
+                
+        gl.glPushMatrix();        
+        gl.glTranslatef(0f, 0.0f, 0.0f);
+        
+        gl.glRotated(90, 1, 0, 0);
+        
+        
+        int SLICES=30;
+        int STACKS=30;
+        gl.glColor3d(0.5, 1, 0);
+        GLU glu=new GLU();
+        GLUquadric q=glu.gluNewQuadric();
+        glu.gluCylinder(q, l, l, t, SLICES, STACKS);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glTranslated(0.0, 0.0, t);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glPopMatrix();
+        
+        // Meja
+        gl.glPushMatrix();
+        gl.glRotated(90,1,0,0);
+        gl.glTranslated(0f, 0f, -t/4);
+        gl.glColor3d(0, 1, 0.5);
+        glu.gluCylinder(q, l+1, l+1, t/4, 30, 30);
+        glu.gluDisk(q, 0.0f, l+1, 30,30);
+        gl.glTranslated(0.0f, 0.0f, t/4);
+        glu.gluDisk(q, 0.0f, l+1, 30,30);
+        
+        gl.glPopMatrix();
+    }
+
+    public void meja(GL gl, double x, double y, double z, double a, double b, double c)
+    {
+        // Tiang
+        double p = 5, l = 5, t = 10;
+        gl.glTranslated(x, y, z);
+        
+        gl.glRotated(a, 1, 0, 0);
+        gl.glRotated(b, 0, 1, 0);
+        gl.glRotated(c, 0, 0, 1);
+        
+//        gl.glRotated(-10, 1, 0, 0);
+        
+        gl.glPushMatrix();
+        gl.glTranslatef(0f, 0.0f, 0f);
+        gl.glRotated(90, 1, 0, 0);
+        
+        int SLICES=30;
+        int STACKS=30;
+        gl.glColor3d(0.5, 1, 0);
+        GLU glu=new GLU();
+        GLUquadric q=glu.gluNewQuadric();
+        glu.gluCylinder(q, l, l, t, SLICES, STACKS);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+//        gl.glTranslated(0.0, 0.0, 0);
+        glu.gluDisk(q, 0.0f, l, SLICES, STACKS);
+        gl.glPopMatrix();
+        
+        // Meja
+        gl.glPushMatrix();
+        gl.glRotated(90,1,0,0);
+        gl.glTranslated(0f, 0f, 0);
+        gl.glColor3d(0, 0.5, 0.5);
+        glu.gluCylinder(q, l*4, l*4, t/4, 30, 30);
+        glu.gluDisk(q, 0.0f, l*4, 30,30);
+        gl.glTranslated(0.0f, 0.0f, 0);
+        glu.gluDisk(q, 0.0f, l*4, 30,30);        
+        gl.glPopMatrix();
+    }
+    
+    public void jungkat(GL gl, double x, double y, double z, double a, double b, double c) 
+    {
+        gl.glTranslated(x, y, z);
+        
+        gl.glRotated(a, 1, 0, 0);
+        gl.glRotated(b, 0, 1, 0);
+        gl.glRotated(c, 0, 0, 1);
+        
+        gl.glPushMatrix();        
+        gl.glColor3d(0.3, 0.3, 0.3);
+        
+        Animation1();
+        gl.glRotated(CurrentAngle, 0, 0, 1);
+        papan(gl, 50, 0, 0);
+        gl.glPopMatrix();
+        
+        gl.glPushMatrix();
+        gl.glTranslatef(0f, 0.5f, 0f);
+        gl.glRotated(90, 1,0,0);
+        cab(gl);
+        gl.glPopMatrix();
+        
+        gl.glPushMatrix();
+        gl.glTranslatef(0f, 0.5f, 0f);
+        gl.glRotated(90, 1,0,0);
+//        cab(gl);
+        gl.glPopMatrix();
+        
+        gl.glPushMatrix();
+        gl.glTranslatef(0f, -0.2f, 0f);
+//        cab(gl);
+        gl.glPopMatrix();
+    }
 public void pohon(GL gl, double x, double y, double z, double a, double b, double c){
         
         double p = 10, l = 10, t = 20;
