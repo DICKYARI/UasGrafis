@@ -1,0 +1,282 @@
+public class GLRenderer implements GLEventListener, KeyListener {
+
+    // Inisialisasi class model objek yang baru
+    private final ModelObject modelObject = new ModelObject();
+    
+    private GL gl;
+    
+    private String objectName = "";
+    
+    private static double camX, camY, camZ = 30;
+    private static double posX1, posY1, posZ1;
+    private static double posX2, posY2, posZ2;
+    private static double posX3, posY3, posZ3;
+    private static double posX4, posY4, posZ4;
+    private static double posX5, posY5, posZ5;
+    private static double posX6, posY6, posZ6;
+    private static double posX7, posY7, posZ7;
+    
+    private static double rotX1, rotY1, rotZ1;
+    private static double rotX2, rotY2, rotZ2;
+    private static double rotX3, rotY3, rotZ3;
+    private static double rotX4, rotY4, rotZ4;
+    private static double rotX5, rotY5, rotZ5;
+    private static double rotX6, rotY6, rotZ6;
+    private static double rotX7, rotY7, rotZ7;
+    
+    private boolean modelTanah = false, modelKursi = false, modelMeja = false;
+    
+    @Override
+    public void init(GLAutoDrawable drawable) {
+        // Use debug pipeline
+        // drawable.setGL(new DebugGL(drawable.getGL()));
+
+        gl = drawable.getGL();
+        System.err.println("INIT GL IS: " + gl.getClass().getName());
+
+        // Enable VSync
+        gl.setSwapInterval(1);
+
+        // Setup the drawing area and shading mode
+        gl.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+        gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
+    }
+
+    @Override
+    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+        gl = drawable.getGL();
+        GLU glu = new GLU();
+
+        if (height <= 0) { // avoid a divide by zero error!        
+            height = 1;
+        }
+        final float h = (float) width / (float) height;
+        gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        glu.gluPerspective(100.0f, h, 1.0, 200.0);
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glLoadIdentity();
+    }
+    
+    @Override
+    public void display(GLAutoDrawable drawable) {
+        gl = drawable.getGL();
+
+        // Clear the drawing area
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);   
+        
+        // Reset the current matrix to the "identity"
+        gl.glLoadIdentity();
+
+        // Memanggil fungsi kamera dari class CameraControll
+        cameraControll();        
+       
+        // Manampilkan tanah
+        gl.glPushMatrix();
+        gl.glTranslated(0, -5, 0);
+        modelObject.tanah(gl, 60, 30);
+        gl.glPopMatrix();
+        
+        // Menampilkan kursi
+        gl.glPushMatrix();
+        modelObject.kursi(gl, posX1, posY1, posZ1, rotX1, rotY1, rotZ1);
+        gl.glPopMatrix();
+        
+        // Menampilkan meja
+        gl.glPushMatrix();
+        modelObject.meja(gl, posX2, posY2, posZ2, rotX2, rotY2, rotZ2);
+        gl.glPopMatrix();
+        
+        // Menampilkan ayunan
+        gl.glPushMatrix();
+        modelObject.ayunAyunan(gl, posX3, posY3, posZ3, rotX3, rotY3, rotZ3);
+        gl.glPopMatrix(); 
+        
+        // Menampilkan jungkat-jungkit
+        gl.glPushMatrix();
+        modelObject.jungkat(gl, posX4, posY4, posZ4, rotX4, rotY4, rotZ4);
+        gl.glPopMatrix();
+        
+        // Menampilkan pohon
+        gl.glPushMatrix();
+        modelObject.pohon(gl, posX5, posY5, posZ5, rotX5, rotY5, rotZ5);
+        gl.glPopMatrix();
+        
+        // Flush all drawing operations to the graphics card
+        gl.glFlush();
+    }
+
+    @Override
+    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {}
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) 
+    {
+        // Memanggil fungsi keyboard control
+        keyboardController(e);
+    }
+    
+    // Fungsi untuk mengontrol input keyboard
+    public static void keyboardController(KeyEvent e) 
+    {
+        System.out.println(e.getKeyCode());
+        switch (e.getKeyCode()) 
+        {
+            /*-------------- Objek Input Section ----------------*/
+            case 38: // Up Arrow
+//                z++;
+                break;
+                
+            case 40: // Down Arrow
+//                z--;
+                break;
+                
+            case 39: // Right Arrow
+//                x++;
+                break;
+                
+            case 37: // Left Arrow
+//                x--;
+                break;
+                
+            /*-------------- Camera Input Section ----------------*/
+            case 87: // W
+                camZ -= 0.5;
+                break;
+                
+            case 83: // S
+                camZ += 0.5;
+                break;
+                
+            case 65: // A
+                camX += 0.5;
+                break;
+                
+            case 68: // D
+                camX -= 0.5;
+                break;
+                
+            case 81: // Q
+                camY += 0.5;
+                break;
+                
+            case 69: // E
+                camY -= 0.5;
+                break;
+                
+            default:
+                System.out.println("No Action");
+                break;
+        }
+    }
+    
+    // Fungsi untuk mengontrol camera
+    private void cameraControll() 
+    {
+        GLU gluCam = new GLU();
+        gluCam.gluLookAt(
+                0, camY, camZ, // Posisi Kamera
+                camX, 0, 0, // Rotasi Kamera
+                0, 1, 0 // Viewport Kamera
+        );
+    }
+    
+    // Fungsi untuk memilih objek
+    public void setSelectedObject(String name)
+    {
+        this.objectName = name;
+    }
+    
+    // Fungsi untuk mengontrol posisi objek
+    public void setPositionObject(double x, double y, double z)
+    {     
+        switch(objectName)
+        {
+            case "Model Tanah":
+                modelTanah = true;
+                break;
+                
+            case "Model Kursi":
+                posX1 = x;
+                posY1 = y;
+                posZ1 = z;
+                break;
+                
+            case "Model Meja":
+                posX2 = x;
+                posY2 = y;
+                posZ2 = z;
+                break;
+                
+            case "Model Ayunan":
+                posX3 = x;
+                posY3 = y;
+                posZ3 = z;
+                break;
+                
+            case "Model Jungkat Jungkit":
+                posX4 = x;
+                posY4 = y;
+                posZ4 = z;
+                break;
+                
+            case "Model Pohon":
+                posX5 = x;
+                posY5 = y;
+                posZ5 = z;
+                break;
+                
+            default:
+                break;
+        }
+        
+    }
+    
+    // Fungsi untuk mengatur rotasi objek
+    public void setRotationObject(double x, double y, double z)
+    {     
+        switch(objectName)
+        {
+            case "Model Kursi":
+                rotX1 = x;
+                rotY1 = y;
+                rotZ1 = z;
+                break;
+                
+            case "Model Meja":
+                rotX2 = x;
+                rotY2 = y;
+                rotZ2 = z;
+                break;
+                
+            case "Model Ayunan":
+                rotX3 = x;
+                rotY3 = y;
+                rotZ3 = z;
+                break;
+                
+            case "Model Jungkat Jungkit":
+                rotX4 = x;
+                rotY4 = y;
+                rotZ4 = z;
+                break;
+            
+            case "Model Pohon":
+                rotX5 = x;
+                rotY5 = y;
+                rotZ5 = z;
+                break;    
+                
+            default:
+                break;
+        }
+        
+    }
+}
